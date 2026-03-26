@@ -38,7 +38,7 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 !.env.example
-deploy/.env
+/deploy
 
 # uploaded images (local disk storage)
 /uploads
