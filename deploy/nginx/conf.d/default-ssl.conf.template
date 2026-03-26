@@ -1,5 +1,6 @@
 # TLS: single host → Next.js (upstream next_app in nginx.conf).
-# setup-ssl.sh replaces your-domain.com with DOMAIN_NAME from deploy/.env
+# NOT loaded by nginx (not *.conf). setup-ssl.sh copies this to default.conf after certs exist.
+# Replaces your-domain.com with DOMAIN_NAME from deploy/.env
 
 server {
     listen 80;

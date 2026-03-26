@@ -19,7 +19,7 @@ Bash helpers modeled after `try-build-tinder/deploy/scripts/`, adapted for this 
 | **`health-check.sh`** | Exit `0` if nginx/app/postgres are up and `http://127.0.0.1/` works. Use in **cron** or monitoring. |
 | **`monitor.sh`** | One-screen status: `compose ps`, `docker stats`, logs tail. |
 | **`setup-systemd.sh`** | Copies `../systemd/photo-upload-app.service` to `/etc/systemd/system/` and enables it. **Run with `sudo`.** |
-| **`setup-ssl.sh`** | Let's Encrypt **certonly** via webroot, then swaps in `nginx/conf.d/default-ssl.conf`. Requires **`DOMAIN_NAME`** and **`EMAIL_FOR_SSL`** in `.env`. |
+| **`setup-ssl.sh`** | Let's Encrypt **certonly** via webroot, then copies `default-ssl.conf.template` → `default.conf`. Requires **`DOMAIN_NAME`** and **`EMAIL_FOR_SSL`** in `.env`. |
 | **`switch-nginx-to-ssl.sh`** | Re-applies SSL `default.conf` after a deploy overwrote it (certs must already exist). |
 | **`troubleshoot-https.sh`** | Checks UFW, nginx `:443`, local `https://127.0.0.1/`. |
 

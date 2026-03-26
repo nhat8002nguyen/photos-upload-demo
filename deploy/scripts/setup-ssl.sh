@@ -82,8 +82,8 @@ photo_compose run --rm --entrypoint certbot certbot certonly \
   --no-eff-email \
   -d "$DOMAIN_NAME"
 
-print_step "Install SSL nginx config..."
-cp ./nginx/conf.d/default-ssl.conf ./nginx/conf.d/default.conf
+print_step "Install SSL nginx config (from template; not loaded until copied to default.conf)..."
+cp ./nginx/conf.d/default-ssl.conf.template ./nginx/conf.d/default.conf
 sed -i.bak "s/your-domain.com/$DOMAIN_NAME/g" ./nginx/conf.d/default.conf
 
 print_step "Reload nginx..."

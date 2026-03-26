@@ -28,7 +28,7 @@ if [ -z "${DOMAIN_NAME:-}" ]; then
   exit 1
 fi
 
-CERT="nginx/conf.d/default-ssl.conf"
+CERT="nginx/conf.d/default-ssl.conf.template"
 if [ ! -f "$CERT" ]; then
   echo -e "${RED}[ERROR]${NC} Missing $CERT"
   exit 1
@@ -40,7 +40,7 @@ if ! photo_compose exec -T nginx test -f "/etc/letsencrypt/live/$DOMAIN_NAME/ful
   exit 1
 fi
 
-cp ./nginx/conf.d/default-ssl.conf ./nginx/conf.d/default.conf
+cp ./nginx/conf.d/default-ssl.conf.template ./nginx/conf.d/default.conf
 sed -i.bak "s/your-domain.com/$DOMAIN_NAME/g" ./nginx/conf.d/default.conf
 
 photo_compose restart nginx
