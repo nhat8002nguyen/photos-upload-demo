@@ -59,10 +59,28 @@ export function getSessionFromRequest(request: NextRequest): Promise<SessionPayl
   return verifySessionToken(token)
 }
 
-export const SESSION_COOKIE_OPTIONS = {
+const SESSION_COOKIE_BASE = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
   sameSite: "lax" as const,
   path: "/",
   maxAge: 60 * 60 * 24 * 7,
 }
+
+/**
+ * `Secure` cookies are not stored on plain HTTP. In production behind nginx, set
+ * `secure` only when the client used HTTPS (`X-Forwarded-Proto: https`) or
+ * `COOKIE_SECURE=true`. HTTP demos (e.g. http://EC2_IP) keep cookies usable.
+ */
+export function getSessionCookieOptions(request: Request) {
+  const env = process.env.COOKIE_SECURE
+  let secure: boolean
+  if (env === "true") {
+    secure = true
+  } else if (env === "false") {
+    secure = false
+  } else {
+    secure = request.headers.get("x-forwarded-proto") === "https"
+  }
+  return { ...SESSION_COOKIE_BASE, secure }
+}
+

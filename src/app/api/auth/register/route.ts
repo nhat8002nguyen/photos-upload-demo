@@ -1,7 +1,7 @@
 import { hash } from "bcryptjs"
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
-import { SESSION_COOKIE_OPTIONS, signSessionToken } from "@/lib/auth"
+import { getSessionCookieOptions, signSessionToken } from "@/lib/auth"
 import { SESSION_COOKIE } from "@/lib/constants"
 import { registerSchema } from "@/lib/validation"
 
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     const res = NextResponse.json({
       user: { id: user.id, username: user.username },
     })
-    res.cookies.set(SESSION_COOKIE, token, SESSION_COOKIE_OPTIONS)
+    res.cookies.set(SESSION_COOKIE, token, getSessionCookieOptions(request))
     return res
   } catch (e: unknown) {
     const code =
