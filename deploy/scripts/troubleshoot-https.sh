@@ -65,8 +65,8 @@ else
 fi
 
 print_step "Local HTTPS"
-if curl -fkfsS -o /dev/null --max-time 5 "https://127.0.0.1/" 2>/dev/null; then
-  print_ok "https://127.0.0.1/ responds (cert may be wrong for browser — OK for probe)"
+if curl -fkfsS -o /dev/null --max-time 5 "https://127.0.0.1/api/health" 2>/dev/null; then
+  print_ok "https://127.0.0.1/api/health responds (cert may be wrong for browser — OK for probe)"
 else
   print_fail "Local HTTPS failed — TLS not configured or nginx error"
 fi

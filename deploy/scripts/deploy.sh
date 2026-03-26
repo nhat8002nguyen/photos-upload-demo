@@ -102,10 +102,10 @@ container_ok "photo_upload_postgres" || true
 echo ""
 print_info "HTTP check (via nginx → Next.js)..."
 sleep 3
-if curl -fsS -o /dev/null --max-time 15 http://127.0.0.1/; then
-  print_info "✓ http://127.0.0.1/ responded"
+if curl -fsS -o /dev/null --max-time 15 http://127.0.0.1/api/health; then
+  print_info "✓ http://127.0.0.1/api/health responded"
 else
-  print_warning "Root URL check failed — services may still be warming up. Check: photo_compose logs -f app"
+  print_warning "Health URL check failed — services may still be warming up. Check: photo_compose logs -f app"
 fi
 
 echo ""

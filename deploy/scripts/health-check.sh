@@ -28,8 +28,8 @@ if ! docker ps --filter "name=photo_upload_postgres" --format '{{.Names}}' | gre
   EXIT_CODE=1
 fi
 
-if ! curl -fsS -o /dev/null --max-time 10 http://127.0.0.1/; then
-  echo "ERROR: http://127.0.0.1/ did not return successfully"
+if ! curl -fsS -o /dev/null --max-time 10 http://127.0.0.1/api/health; then
+  echo "ERROR: http://127.0.0.1/api/health did not return successfully"
   EXIT_CODE=1
 fi
 

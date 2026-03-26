@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server"
 import { verifySessionToken } from "@/lib/auth"
 
 const publicPages = new Set(["/login", "/register"])
-const publicApiExact = new Set(["/api/auth/register", "/api/auth/login"])
+const publicApiExact = new Set(["/api/auth/register", "/api/auth/login", "/api/health"])
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl

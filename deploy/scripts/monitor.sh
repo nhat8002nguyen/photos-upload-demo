@@ -36,10 +36,10 @@ fi
 echo ""
 
 echo -e "${BLUE}=== Checks ===${NC}"
-if curl -fsS -o /dev/null --max-time 5 http://127.0.0.1/; then
-  echo -e "${GREEN}✓${NC} HTTP / (via nginx)"
+if curl -fsS -o /dev/null --max-time 5 http://127.0.0.1/api/health; then
+  echo -e "${GREEN}✓${NC} HTTP /api/health (via nginx)"
 else
-  echo -e "${RED}✗${NC} HTTP / failed"
+  echo -e "${RED}✗${NC} HTTP /api/health failed"
 fi
 
 if docker exec photo_upload_postgres pg_isready -U postgres &>/dev/null; then

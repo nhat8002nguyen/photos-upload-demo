@@ -84,6 +84,22 @@ Daily backup (run as a user that can use `docker`):
 0 3 * * * cd /opt/photo-upload-app/deploy && ./scripts/backup.sh >> /var/log/photo-backup.log 2>&1
 ```
 
+## Troubleshooting
+
+### `photo_upload_app` unhealthy / nginx never starts
+
+The Docker healthcheck must hit a URL that returns **HTTP 200**. The app’s `/` responds with **307** redirects; `wget --spider` on `/` can exit with an error, so the container stays **unhealthy**. The stack uses **`GET /api/health`** (200 JSON) for health checks. If you deploy an older image without that route, update the app and rebuild.
+
+### `permission denied` connecting to Docker socket
+
+Run `deploy` scripts as a user in the **`docker`** group (`newgrp docker` or log out and back in after `setup-ec2.sh`), or use `sudo ./scripts/deploy.sh` once.
+
+### Files under `/opt/photo-upload-app` owned by root
+
+After `sudo git clone` / `sudo mv`, fix ownership so you can edit `.env` without sudo:
+
+`sudo chown -R "$USER:$USER" /opt/photo-upload-app`
+
 ## See also
 
 - Root app README: `../../README.md`
