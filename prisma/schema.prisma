@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  photos           Photo[]
+  comments         Comment[]
+  followsInitiated Follow[] @relation("UserFollows")
+  followsReceived  Follow[] @relation("UserFollowedBy")
+}
+
+model Photo {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  imagePath String
+  caption   String?
+  createdAt DateTime @default(now())
+
+  comments Comment[]
+
+  @@index([userId, createdAt])
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  photoId   String
+  photo     Photo    @relation(fields: [photoId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  text      String
+  createdAt DateTime @default(now())
+
+  @@index([photoId])
+}
+
+model Follow {
+  followerId  String
+  followingId String
+  follower    User   @relation("UserFollows", fields: [followerId], references: [id], onDelete: Cascade)
+  following   User   @relation("UserFollowedBy", fields: [followingId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@id([followerId, followingId])
+  @@index([followerId])
+}
